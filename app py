@@ -1,0 +1,58 @@
+from flask import Flask, request, jsonify
+from binance.client import Client
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+# Binance API keys
+API_KEY = "YOUR_BINANCE_API_KEY"
+API_SECRET = "YOUR_BINANCE_SECRET_KEY"
+
+client = Client(API_KEY, API_SECRET)
+
+# Minimum BTC quantity safe for small trades
+MIN_BTC_QTY = 0.001
+
+@app.route('/buy', methods=['POST'])
+def buy():
+    try:
+        data = request.json
+        symbol = data.get('symbol', 'BTCUSDT')
+        quantity = float(data.get('quantity', MIN_BTC_QTY))
+        
+        if quantity < MIN_BTC_QTY:
+            quantity = MIN_BTC_QTY  # safe minimum
+
+        order = client.order_market_buy(symbol=symbol, quantity=quantity)
+        return jsonify({"status": "success", "order": order})
+    
+    except Exception as e:
+        return jsonify({"status": "fail", "error": str(e)})
+
+@app.route('/sell', methods=['POST'])
+def sell():
+    try:
+        data = request.json
+        symbol = data.get('symbol', 'BTCUSDT')
+        quantity = float(data.get('quantity', MIN_BTC_QTY))
+        
+        if quantity < MIN_BTC_QTY:
+            quantity = MIN_BTC_QTY  # safe minimum
+
+        order = client.order_market_sell(symbol=symbol, quantity=quantity)
+        return jsonify({"status": "success", "order": order})
+    
+    except Exception as e:
+        return jsonify({"status": "fail", "error": str(e)})
+
+@app.route('/price/<symbol>', methods=['GET'])
+def price(symbol):
+    try:
+        ticker = client.get_symbol_ticker(symbol=symbol)
+        return jsonify({"status": "success", "price": ticker['price']})
+    except Exception as e:
+        return jsonify({"status": "fail", "error": str(e)})
+
+if __name__ == '__main__':
+    app.run()

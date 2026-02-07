@@ -1,0 +1,54 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.app {
+  background: #020617;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2);
+}
+
+h1 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.card {
+  background: #020617;
+  border: 1px solid #0ea5e9;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+button {
+  margin: 8px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:first-of-type {
+  background: #22c55e;
+  color: #000;
+}
+
+button:last-of-type {
+  background: #ef4444;
+  color: #000;
+}
+
+#message {
+  margin-top: 10px;
+  color: #38bdf8;
+}
